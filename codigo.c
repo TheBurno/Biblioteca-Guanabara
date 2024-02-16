@@ -4,15 +4,52 @@
 
 // Conter Cadastro, Consulta e Exclusão de Dados
 
-// Struct
-
 // Arquivo
 
-// Funções e Procedimentos
+void criarArquivo(){
 
-// Comandos de Entrada-Saída
+    FILE *pont_arq;
 
-// Decisão
+    pont_arq = fopen("registro.txt", "a");
+    fclose(pont_arq);
+}
+
+void telaInicial(){
+
+    int option, matricula;
+    char senha;
+
+    printf("\n\n\n     SISTEMA DA BIBLIOTECA DA UNIVERSIDADE GUANABARA     \n\n\n");
+    printf("Selecione uma das opcoes abaixo.\n\n1 - Fazer login\n2 - Cadastrar-se\n\n");
+    scanf("%d", &option);
+
+    if(option == 1){
+        printf("Matricula: ");
+        scanf("%d", &matricula);
+        printf("Senha: ");
+        scanf("%s", &senha);
+    }
+
+    if(option == 2){
+        
+    }
+}
+
+void cadastro(){
+
+    struct aluno{
+        char nome;
+        int matricula;
+        char curso;
+        char senha;
+    };
+}
+
+int main(){
+
+    criarArquivo();
+    telaInicial();
+}
 
 // Repetição
 
