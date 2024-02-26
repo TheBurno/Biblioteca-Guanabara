@@ -4,8 +4,6 @@
 
 // Conter Cadastro, Consulta e Exclusão de Dados
 
-// Arquivo
-
 void criarArquivo(){
 
     FILE *pont_arq;
