@@ -2,24 +2,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-int i, c;
+int i, j, c;
 i = 0;
 c = 0;
+j = 0;
 
 typedef struct{
     char nome;
     int matricula;
     char curso;
     int senha;
-} cadastro[100];
+} cadastro;
+
+cadastro alunos[100];
 
 
 void telaInicial(){
 
     int option, matricula, senha;
     char ans;
-
-    cadastro aluno;
 
     while (1){
         printf("\n\n\n     SISTEMA DA BIBLIOTECA DA UNIVERSIDADE GUANABARA     \n\n\n");
@@ -33,13 +34,13 @@ void telaInicial(){
             printf("\nSenha: ");
             scanf("%d", &senha);
 
-
+            i = 0;
 	        while (1){
-      		    if (matricula == aluno.matricula[i] && senha == aluno.senha[i]){
+
+      		    if (matricula == alunos[i].matricula && senha == alunos[i].senha){
 				    menu();
         		}  
-			    else{
-                    i == c + 1;
+			    else if (i == c + 1){
 			        printf("Login e/ou matricula incorretos.");
 			        break;
 			    }
@@ -47,27 +48,25 @@ void telaInicial(){
 		    }
         }
 
-
         if(option == 2){
 		    FILE *pont_arq;
 		    pont_arq = fopen(("registro%i.txt",c),"w");
 
             printf("Nome: ");
-            scanf("%s", aluno.nome);
-		    fprintf(pont_arq, aluno.nome);
+            scanf("%s", alunos[i].nome);
+		    fprintf(pont_arq, alunos[i].nome);
             printf("Matricula: ");
-            scanf("%d", &aluno.matricula);
-		    fprintf(pont_arq, aluno.matricula);
+            scanf("%d", &alunos[i].matricula);
+		    fprintf(pont_arq, alunos[i].matricula);
             printf("Curso: ");
-            scanf("%s", aluno.curso);
-		    fprintf(pont_arq, aluno.curso);
+            scanf("%s", alunos[i].curso);
+		    fprintf(pont_arq, alunos[i].curso);
             printf("Senha(Apenas números podem ser colocados): ");
-            scanf("%d", aluno.senha);
-		    fprintf(pont_arq, aluno.senha);
+            scanf("%d", alunos[i].senha);
+		    fprintf(pont_arq, alunos[i].senha);
 
             c = c++;
         }
-
 
 	  if(option == 3){
 	    printf("Matricula: ");
@@ -75,23 +74,21 @@ void telaInicial(){
 		printf("Senha: ");
         scanf("%d", &senha);
 		while (1){
-			int i = i++;
       	
- 			if (matricula == aluno.matricula[i] && senha == aluno.senha[i]){
+ 			if (matricula == alunos[i].matricula && senha == alunos[i].senha){
 		    		printf("Voce realmente deseja apagar suas informacoes?Y/N");
            	    	scanf("%c",&ans);
                		if(ans == "Y"){
-                         aluno.nome[i]="N";
-                         aluno.matricula[i]=0;
-                         aluno.curso[i]="N";
-                         aluno.senha[i]=0;
+                         alunos[i].nome="N";
+                         alunos[i].matricula=0;
+                         alunos[i].curso="N";
+                         alunos[i].senha=0;
                		}
                		else{
                    		printf("Voltando pra tela inicial");
       	    		}
         	}  
-			else{
-                i == c + 1;
+			else if (i == c + 1){
 				printf("Login e/ou matricula incorretos");
 				break;
             }	
@@ -108,7 +105,7 @@ void telaInicial(){
 void menu(){
 	int option2;
     
-    printf("\n\nBem-vindo, %s!", aluno.nome[i]);
+    printf("\n\nBem-vindo, %s!", alunos[i].nome);
  	printf("1 - Consulta de Dados \n\n2 - Consulta de Livros\n\n3 - Sair");
 	scanf("%d",&option2);
 	if (option2 == 1){
@@ -156,16 +153,13 @@ void consultaLivros(){
             livrosEmprestados();
             break;
 
-
         case 2:
             livrosDisponiveis();
             break;
 
-
         case 3:
             consulta = 0;
             break;
-
 
         default:
             printf("Opcao invalida! Tente novamente.");
