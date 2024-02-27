@@ -2,15 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-int i, j, c;
-i = 0;
-c = 0;
-j = 0;
+int i=0, j=0, c=0;
+
+void telaInicial(), menu(), consultaLivros(), livrosDisponiveis(), livrosEmprestados(), emprestar();
 
 typedef struct{
-    char nome;
+    char* nome[50];
     int matricula;
-    char curso;
+    char* curso[20];
     int senha;
 } cadastro;
 
@@ -22,95 +21,121 @@ void telaInicial(){
     int option, matricula, senha;
     char ans;
 
-    while (1){
+    /*Laco ate o usuario desejar sair*/
+    while (1)
+    {
         printf("\n\n\n     SISTEMA DA BIBLIOTECA DA UNIVERSIDADE GUANABARA     \n\n\n");
-        printf("Selecione uma das opções abaixo.\n\n1 - Fazer login\n2 - Cadastrar-se\n\n3 - Excluir dados\n4 - Sair do programa\n");
+        printf("Selecione uma das opcoes abaixo.\n\n1 - Fazer login\n2 - Cadastrar-se\n3 - Excluir dados\n4 - Sair do programa\n= ");
         scanf("%d", &option);
 
 
-        if(option == 1){
+        /*Login*/
+        if(option == 1)
+        {
             printf("Matricula: ");
             scanf("%d", &matricula);
             printf("\nSenha: ");
             scanf("%d", &senha);
 
             i = 0;
-	        while (1){
-
-      		    if (matricula == alunos[i].matricula && senha == alunos[i].senha){
+	        while (1)
+            {
+      		    if (matricula == alunos[i].matricula && senha == alunos[i].senha)
+                {
 				    menu();
         		}  
-			    else if (i == c + 1){
+			    else if (i == c + 1)
+                {
 			        printf("Login e/ou matricula incorretos.");
 			        break;
 			    }
-                i = i++;
+                i++;
 		    }
         }
 
-        if(option == 2){
+        /*Cadastro*/
+        if(option == 2)
+        {
+            /*Criar o arquivo*/
 		    FILE *pont_arq;
-		    pont_arq = fopen(("registro%i.txt",c),"w");
+		    pont_arq = fopen("registro.txt","w");
+
+            if (pont_arq == NULL)
+            {
+                printf("\nArquivo não criado!\n");
+            }
+            else
+            {
+                printf("Criando registro.\n\n");
+            }
 
             printf("Nome: ");
             scanf("%s", alunos[i].nome);
-		    fprintf(pont_arq, alunos[i].nome);
+            fprintf(pont_arq, "%s", alunos[i].nome);
             printf("Matricula: ");
             scanf("%d", &alunos[i].matricula);
-		    fprintf(pont_arq, alunos[i].matricula);
+		    fprintf(pont_arq, "%d", alunos[i].matricula);
             printf("Curso: ");
             scanf("%s", alunos[i].curso);
-		    fprintf(pont_arq, alunos[i].curso);
-            printf("Senha(Apenas números podem ser colocados): ");
-            scanf("%d", alunos[i].senha);
-		    fprintf(pont_arq, alunos[i].senha);
+		    fprintf(pont_arq, "%s", alunos[i].curso);
+            printf("Senha(Apenas numeros podem ser colocados): ");
+            scanf("%d", &alunos[i].senha);
+		    fprintf(pont_arq, "%d", alunos[i].senha);
+            
+            fclose(pont_arq);
 
             c = c++;
         }
 
-	  if(option == 3){
-	    printf("Matricula: ");
-		scanf("%d", &matricula);
-		printf("Senha: ");
-        scanf("%d", &senha);
-		while (1){
-      	
- 			if (matricula == alunos[i].matricula && senha == alunos[i].senha){
-		    		printf("Voce realmente deseja apagar suas informacoes?Y/N");
-           	    	scanf("%c",&ans);
-               		if(ans == "Y"){
-                         alunos[i].nome="N";
-                         alunos[i].matricula=0;
-                         alunos[i].curso="N";
-                         alunos[i].senha=0;
-               		}
-               		else{
-                   		printf("Voltando pra tela inicial");
-      	    		}
-        	}  
-			else if (i == c + 1){
-				printf("Login e/ou matricula incorretos");
-				break;
-            }	
+        if(option == 3)
+        {
+            printf("Matricula: ");
+            scanf("%d", &matricula);
+            printf("Senha: ");
+            scanf("%d", &senha);
+            while (1)
+            {
+                
+                if ((strcmp(matricula, alunos[i].matricula) == 0) && strcmp(senha, alunos[i].senha) == 0)
+                {
+                        printf("Voce realmente deseja apagar suas informacoes?Y/N");
+                        scanf("%c",&ans);
+                        if(ans == "Y")
+                        {
+                            alunos[i].nome[50]="N";
+                            alunos[i].matricula=0;
+                            alunos[i].curso[20]="N";
+                            alunos[i].senha=0;
+                        }
+                        else
+                        {
+                            printf("Voltando pra tela inicial");
+                        }
+                }  
+                else if (i == c + 1)
+                {
+                    printf("Login e/ou matricula incorretos");
+                    break;
+                }	
+            }
         }
-    }
 	  
- 	if(option == 4){
-        printf("Fechando programa...");
-        break;
-	}	
+        if(option == 4){
+            printf("Fechando programa...");
+            break;
+        }	
     }
  }
 
 void menu(){
 	int option2;
+    FILE *fptr;
     
     printf("\n\nBem-vindo, %s!", alunos[i].nome);
- 	printf("1 - Consulta de Dados \n\n2 - Consulta de Livros\n\n3 - Sair");
+ 	printf("\n1 - Consulta de Dados \n\n2 - Consulta de Livros\n\n3 - Sair\n=");
 	scanf("%d",&option2);
 	if (option2 == 1){
-        FILE *fptr;
-        fptr = fopen(("registro%d.txt", i), "r");
+        fptr = fopen("registro.txt", "r");
 	}
 
 	if (option2 == 2){
@@ -120,14 +145,13 @@ void menu(){
 	if (option2 == 3){
  	    exit(0);
 	}
+    fclose(fptr);
 }
 
 /* Parte do Ion */
 
 /* Bibliotecas*/
 
-/* Funções*/
-void consultaLivros(), livrosDisponiveis(), livrosEmprestados(), emprestar();
 
 /* Variaveis Globais*/
 char* livros[18] = {"Calculo 1", "Calculo 2", "Calculo 3", "Algebra 1", "Algebra 2", "Algebra 3", "Programacao 1", "Programacao 2", "Programacao 3", "Fisica 1", "Fisica 2", "Fisica 3", "Quimica 1", "Quimica 2", "Quimica 3", "Algoritmos 1", "Algoritmos 2", "Algoritmos 3"};
