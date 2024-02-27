@@ -21,20 +21,21 @@ void telaInicial(){
     int option, matricula, senha;
     char ans;
 
-    /*Laco ate o usuario desejar sair*/
+    /*Laço ate o usuario desejar sair*/
+
     while (1)
     {
         printf("\n\n\n     SISTEMA DA BIBLIOTECA DA UNIVERSIDADE GUANABARA     \n\n\n");
-        printf("Selecione uma das opcoes abaixo.\n\n1 - Fazer login\n2 - Cadastrar-se\n3 - Excluir dados\n4 - Sair do programa\n= ");
+        printf("Selecione uma das opcoes abaixo.\n\n1 - Fazer login\n2 - Cadastrar-se\n3 - Excluir dados\n4 - Sair do programa\n\n= ");
         scanf("%d", &option);
 
 
         /*Login*/
         if(option == 1)
         {
-            printf("Matricula: ");
+            printf("\nMatricula: ");
             scanf("%d", &matricula);
-            printf("\nSenha: ");
+            printf("Senha: ");
             scanf("%d", &senha);
 
             i = 0;
@@ -66,7 +67,7 @@ void telaInicial(){
             }
             else
             {
-                printf("Criando registro.\n\n");
+                printf("\nCriando registro...\n\n");
             }
 
             printf("Nome: ");
@@ -131,21 +132,31 @@ void menu(){
 	int option2;
     FILE *fptr;
     
-    printf("\n\nBem-vindo, %s!", alunos[i].nome);
- 	printf("\n1 - Consulta de Dados \n\n2 - Consulta de Livros\n\n3 - Sair\n=");
-	scanf("%d",&option2);
-	if (option2 == 1){
-        fptr = fopen("registro.txt", "r");
-	}
+    while (1){
 
-	if (option2 == 2){
-		consultaLivros();
-	}
+        printf("\n\nBem-vindo, %s!", alunos[i].nome);
+        printf("\n\n1 - Consulta de Dados \n2 - Consulta de Livros\n3 - Sair\n\n= ");
+        scanf("%d",&option2);
+        if (option2 == 1){
+            /* FILE *pont_arq;
+            pont_arq = fopen("registro.txt", "r");
+            char arquivo[100];
+            fgets(arquivo, 100, pont_arq);
+            printf("%s", arquivo);
+            fclose(pont_arq); */
+            printf("\nNome: %s", alunos[i].nome);
+            printf("\nMatricula: %d", alunos[i].matricula);
+            printf("\nCurso: %s", alunos[i].curso);
+        }
 
-	if (option2 == 3){
- 	    exit(0);
-	}
-    fclose(fptr);
+        if (option2 == 2){
+            consultaLivros();
+        }
+
+        if (option2 == 3){
+            exit(0);
+        }
+    }
 }
 
 /* Parte do Ion */
