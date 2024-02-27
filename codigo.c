@@ -3,13 +3,15 @@
 #include <string.h>
 
 int i, c;
+i = 0;
+c = 0;
 
 typedef struct{
     char nome;
     int matricula;
     char curso;
     int senha;
-} cadastro[];
+} cadastro[100];
 
 
 void telaInicial(){
@@ -17,7 +19,7 @@ void telaInicial(){
     int option, matricula, senha;
     char ans;
 
-    cadastro[] aluno;
+    cadastro aluno;
 
     while (1){
         printf("\n\n\n     SISTEMA DA BIBLIOTECA DA UNIVERSIDADE GUANABARA     \n\n\n");
@@ -33,7 +35,6 @@ void telaInicial(){
 
 
 	        while (1){
-			    i = i++;
       		    if (matricula == aluno.matricula[i] && senha == aluno.senha[i]){
 				    menu();
         		}  
@@ -42,13 +43,12 @@ void telaInicial(){
 			        printf("Login e/ou matricula incorretos.");
 			        break;
 			    }
+                i = i++;
 		    }
         }
 
 
         if(option == 2){
-		    c = c++;
-
 		    FILE *pont_arq;
 		    pont_arq = fopen(("registro%i.txt",c),"w");
 
@@ -64,6 +64,8 @@ void telaInicial(){
             printf("Senha(Apenas números podem ser colocados): ");
             scanf("%d", aluno.senha);
 		    fprintf(pont_arq, aluno.senha);
+
+            c = c++;
         }
 
 
