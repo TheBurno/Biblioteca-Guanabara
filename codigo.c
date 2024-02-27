@@ -39,14 +39,11 @@ void telaInicial(){
             scanf("%d", &senha);
 
             i = 0;
-	        while (1)
-            {
-      		    if (matricula == alunos[i].matricula && senha == alunos[i].senha)
-                {
+	        while (1){
+      		    if (matricula == alunos[i].matricula && senha == alunos[i].senha){
 				    menu();
         		}  
-			    else if (i == c + 1)
-                {
+			    else if (i == c + 1){
 			        printf("Login e/ou matricula incorretos.");
 			        break;
 			    }
@@ -55,18 +52,15 @@ void telaInicial(){
         }
 
         /*Cadastro*/
-        if(option == 2)
-        {
+        if(option == 2){
             /*Criar o arquivo*/
 		    FILE *pont_arq;
 		    pont_arq = fopen("registro.txt","w");
 
-            if (pont_arq == NULL)
-            {
+            if (pont_arq == NULL){
                 printf("\nArquivo não criado!\n");
             }
-            else
-            {
+            else{
                 printf("\nCriando registro...\n\n");
             }
 
@@ -88,35 +82,34 @@ void telaInicial(){
             c = c++;
         }
 
-        if(option == 3)
-        {
-            printf("Matricula: ");
-            scanf("%d", &matricula);
-            printf("Senha: ");
-            scanf("%d", &senha);
-            while (1)
-            {
-                
-                if ((strcmp(matricula, alunos[i].matricula) == 0) && strcmp(senha, alunos[i].senha) == 0)
-                {
-                        printf("Voce realmente deseja apagar suas informacoes?Y/N");
-                        scanf("%c",&ans);
-                        if(ans == "Y")
-                        {
-                            alunos[i].nome[50]="N";
-                            alunos[i].matricula=0;
-                            alunos[i].curso[20]="N";
-                            alunos[i].senha=0;
-                        }
-                        else
-                        {
-                            printf("Voltando pra tela inicial");
-                        }
+        if(option == 3){
+            while (1){
+                printf("\nMatricula: ");
+                scanf("%d", &matricula);
+                printf("Senha: ");
+                scanf("%d", &senha);
+                if (matricula == alunos[i].matricula && senha == alunos[i].senha){
+                    printf("\nVoce realmente deseja apagar suas informacoes?Y/N\n\n=");
+                    scanf("%s",&ans);
+                    if(ans == 'Y'){
+                        alunos[i].nome[50] == "N";
+                        alunos[i].matricula == 0;
+                        alunos[i].curso[20] = "N";
+                        alunos[i].senha == 0;
+
+                        printf("\nDados apagados com sucesso.");
+                        break;
+                    }
+                    else if (ans == 'N'){
+                        printf("\nVoltando pra tela inicial...");
+                    }
+                    else{
+                        printf("\nOpção invalida, retornando ao menu inicial.");
+                        break;
+                    }
                 }  
-                else if (i == c + 1)
-                {
-                    printf("Login e/ou matricula incorretos");
-                    break;
+                else{
+                    printf("\nLogin e/ou matricula incorretos.\n");
                 }	
             }
         }
@@ -130,12 +123,11 @@ void telaInicial(){
 
 void menu(){
 	int option2;
-    FILE *fptr;
-    
+
     while (1){
 
         printf("\n\nBem-vindo, %s!", alunos[i].nome);
-        printf("\n\n1 - Consulta de Dados \n2 - Consulta de Livros\n3 - Sair\n\n= ");
+        printf("\n\n1 - Consulta de Dados \n2 - Consulta de Livros\n3 - Voltar\n\n= ");
         scanf("%d",&option2);
         if (option2 == 1){
             /* FILE *pont_arq;
@@ -154,7 +146,7 @@ void menu(){
         }
 
         if (option2 == 3){
-            exit(0);
+            telaInicial();
         }
     }
 }
