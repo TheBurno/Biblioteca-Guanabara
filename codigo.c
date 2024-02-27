@@ -4,7 +4,7 @@
 
 int i=0, j=0, c=0;
 
-void telaInicial(), menu(), consultaLivros(), livrosDisponiveis(), livrosEmprestados(), emprestar();
+void telaInicial(), menu(), consultaLivros(), livrosDisponiveis(), livrosEmprestados(), emprestar(), criarArquivo(), apagarArquivo();
 
 typedef struct{
     char* nome[50];
@@ -15,11 +15,58 @@ typedef struct{
 
 cadastro alunos[100];
 
+void criarArquivo(int index)
+{
+    char* registro[15];
+    char skip ='\n';
+    sprintf(registro, "registro_%d.txt", index + 1);
+
+    FILE *pont_arq;
+	pont_arq = fopen(registro, "w");
+    
+
+    if (pont_arq == NULL)
+    {
+        printf("\nArquivo nao criado!\n");
+    }
+    else
+    {
+        printf("Arquivo %d criado\n", index+1);
+    }
+    printf("Nome: ");
+    scanf("%s", alunos[index].nome);
+    fprintf(pont_arq, "%s", alunos[index].nome);
+    fputc(skip, pont_arq);
+    printf("Matricula: ");
+    scanf("%d", &alunos[index].matricula);
+    fprintf(pont_arq, "%d", alunos[index].matricula);
+    fputc(skip, pont_arq);
+    printf("Curso: ");
+    scanf("%s", alunos[index].curso);
+    fprintf(pont_arq, "%s", alunos[index].curso);
+    fputc(skip, pont_arq);
+    printf("Senha(Apenas numeros podem ser colocados): ");
+    scanf("%d", &alunos[index].senha);
+    fprintf(pont_arq, "%d", alunos[index].senha);
+    
+    fclose(pont_arq);
+}
+
+void apagarArquivo(int index)
+{
+    char* registro[15];
+    char skip ='\n';
+    sprintf(registro, "registro_%d.txt", index + 1);
+
+    FILE *pont_arq;
+	pont_arq = fopen(registro, "w");
+    fclose(pont_arq);
+}
+
 
 void telaInicial(){
 
-    int option, matricula, senha;
-    char ans;
+    int option, matricula, senha, ans;
 
     /*Laço ate o usuario desejar sair*/
 
@@ -38,107 +85,94 @@ void telaInicial(){
             printf("Senha: ");
             scanf("%d", &senha);
 
-            i = 0;
-	        while (1){
-      		    if (matricula == alunos[i].matricula && senha == alunos[i].senha){
-				    menu();
+            for(int i = 0; i<= c; i++)
+            {
+      		    if (matricula == alunos[i].matricula && senha == alunos[i].senha)
+                {
+				    menu(i);
+                    break;
         		}  
-			    else if (i == c + 1){
+			    else if (i == c )
+                {
 			        printf("Login e/ou matricula incorretos.");
 			        break;
 			    }
-                i++;
 		    }
         }
 
         /*Cadastro*/
         if(option == 2){
-            /*Criar o arquivo*/
-		    FILE *pont_arq;
-		    pont_arq = fopen("registro.txt","w");
+            criarArquivo(c);    
 
-            if (pont_arq == NULL){
-                printf("\nArquivo não criado!\n");
-            }
-            else{
-                printf("\nCriando registro...\n\n");
-            }
-
-            printf("Nome: ");
-            scanf("%s", alunos[i].nome);
-            fprintf(pont_arq, "%s", alunos[i].nome);
-            printf("Matricula: ");
-            scanf("%d", &alunos[i].matricula);
-		    fprintf(pont_arq, "%d", alunos[i].matricula);
-            printf("Curso: ");
-            scanf("%s", alunos[i].curso);
-		    fprintf(pont_arq, "%s", alunos[i].curso);
-            printf("Senha(Apenas numeros podem ser colocados): ");
-            scanf("%d", &alunos[i].senha);
-		    fprintf(pont_arq, "%d", alunos[i].senha);
-            
-            fclose(pont_arq);
-
-            c = c++;
+            c++;
         }
 
-        if(option == 3){
-            while (1){
+        if(option == 3)
+        {
+            while (1)
+            {
                 printf("\nMatricula: ");
                 scanf("%d", &matricula);
                 printf("Senha: ");
                 scanf("%d", &senha);
-                if (matricula == alunos[i].matricula && senha == alunos[i].senha){
-                    printf("\nVoce realmente deseja apagar suas informacoes?Y/N\n\n=");
-                    scanf("%s",&ans);
-                    if(ans == 'Y'){
-                        alunos[i].nome[50] == "N";
-                        alunos[i].matricula == 0;
-                        alunos[i].curso[20] = "N";
-                        alunos[i].senha == 0;
+                for(int i = 0; i<= c; i++)
+                {
+                    if (matricula == alunos[i].matricula && senha == alunos[i].senha)
+                    {
+                        printf("\nVoce realmente deseja apagar suas informacoes?\n1-Sim\n2-Nao\n=");
+                        scanf("%d",&ans);
+                        if(ans == 1)
+                        {
+                            printf("Apagando dados de %s",alunos[i].nome);
+                            apagarArquivo(i);
+                            alunos[i].nome[50] == "N";
+                            alunos[i].matricula == 0;
+                            alunos[i].curso[20] = "N";
+                            alunos[i].senha == 0;
 
-                        printf("\nDados apagados com sucesso.");
-                        break;
-                    }
-                    else if (ans == 'N'){
+                            printf("\nDados apagados com sucesso.");
+                            break;
+                        }  
+
+                        else if (ans == 2)
+                        {
                         printf("\nVoltando pra tela inicial...");
-                    }
-                    else{
+                        break;
+                        }
+                        else
+                        {
                         printf("\nOpção invalida, retornando ao menu inicial.");
                         break;
-                    }
-                }  
-                else{
-                    printf("\nLogin e/ou matricula incorretos.\n");
-                }	
+                        }
+                    }  
+                    else if (i == c)
+                    {
+                        printf("\nLogin e/ou matricula incorretos.\n");
+                    }	
+                }
+                break;
             }
         }
-	  
-        if(option == 4){
+        if(option == 4)
+        {
             printf("Fechando programa...");
-            break;
+            exit(0);
         }	
     }
  }
 
-void menu(){
+void menu(int num){
 	int option2;
 
     while (1){
 
-        printf("\n\nBem-vindo, %s!", alunos[i].nome);
+        printf("\n\nBem-vindo, %s!", alunos[num].nome);
         printf("\n\n1 - Consulta de Dados \n2 - Consulta de Livros\n3 - Voltar\n\n= ");
         scanf("%d",&option2);
         if (option2 == 1){
-            /* FILE *pont_arq;
-            pont_arq = fopen("registro.txt", "r");
-            char arquivo[100];
-            fgets(arquivo, 100, pont_arq);
-            printf("%s", arquivo);
-            fclose(pont_arq); */
-            printf("\nNome: %s", alunos[i].nome);
-            printf("\nMatricula: %d", alunos[i].matricula);
-            printf("\nCurso: %s", alunos[i].curso);
+            printf("\nNome: %s", alunos[num].nome);
+            printf("\nMatricula: %d", alunos[num].matricula);
+            printf("\nCurso: %s", alunos[num].curso);
         }
 
         if (option2 == 2){
