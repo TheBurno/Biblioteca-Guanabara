@@ -18,6 +18,7 @@ void telaInicial(){
     char ans;
 
     cadastro[] aluno;
+
     while (1){
         printf("\n\n\n     SISTEMA DA BIBLIOTECA DA UNIVERSIDADE GUANABARA     \n\n\n");
         printf("Selecione uma das opções abaixo.\n\n1 - Fazer login\n2 - Cadastrar-se\n\n3 - Excluir dados\n4 - Sair do programa\n");
