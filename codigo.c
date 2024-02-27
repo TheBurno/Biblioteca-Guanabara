@@ -36,8 +36,9 @@ void telaInicial(){
       		    if (matricula == aluno.matricula[i] && senha == aluno.senha[i]){
 				    menu();
         		}  
-			    else (i == c + 1){
-			        printf(“Login e/ou matricula incorretos”);
+			    else{
+                    i == c + 1;
+			        printf("Login e/ou matricula incorretos.");
 			        break;
 			    }
 		    }
@@ -113,7 +114,7 @@ void menu(){
 	}
 
 	if (option2 == 2){
-		//Ian;
+		consultaLivros();
 	}
 
 	if (option2 == 3){
@@ -124,10 +125,6 @@ void menu(){
 /* Parte do Ion */
 
 /* Bibliotecas*/
-
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
 
 /* Funções*/
 void consultaLivros(), livrosDisponiveis(), livrosEmprestados(), emprestar();
@@ -328,6 +325,5 @@ void livrosEmprestados()
 
 int main(){
     telaInicial();
-    consultaLivros();
     return 0;
 }
